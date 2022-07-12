@@ -16,7 +16,7 @@ const SearchWeather = () => {
             const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=e9437d7a39f9e5e8534e8465ac0edc62`);
             if (componentMounted) {
                 setData(await response.json());
-                console.log(data);
+                //console.log(data);
             }
 
             return () => {
@@ -26,20 +26,22 @@ const SearchWeather = () => {
         fetchWeather();
     }, [search])
 
+    
+
     let emoji = null;
     if (typeof data.main != "undefined") {
-        if (data.weather[0].min == "Clouds") {
-            emoji = "fa-cloud"
-        } else if (data.weather[0].min == "Thunderstorm") {
-            emoji = "fa-bolt"
-        } else if (data.weather[0].min == "Drizzle") {
-            emoji = "fa-cloud-rain"
-        } else if (data.weather[0].min == "Rain") {
-            emoji = "fa-cloud-shower-heavy"
-        } else if (data.weather[0].min == "Snow") {
-            emoji = "fa-snow-flake"
+        if (data.weather[0].min === "Clouds") {
+            emoji = "fa-cloud";
+        } else if (data.weather[0].main === "Thunderstorm") {
+            emoji = "fa-cloud-bolt";
+        } else if (data.weather[0].main === "Drizzle") {
+            emoji = "fa-cloud-drizzle";
+        } else if (data.weather[0].main === "Rain") {
+            emoji = "fa-solid fa-cloud-rain";
+        } else if (data.weather[0].main === "Snow") {
+            emoji = "fa-snow-flake";
         } else {
-            emoji = "fa-smog"
+            emoji = "fa-cloud-sun";
         }
     } else {
         return (
@@ -57,30 +59,22 @@ const SearchWeather = () => {
     let date = d.getDate();
 
     let year = d.getFullYear();
-    //let month = d.getMonth();
+    
     let month = d.toLocaleDateString("default", { month: 'long' });
-    //let month = d.Intl.DateTimeFormat('en-US', { weekday: 'long'});
-    //let day = d.toLocaleDateString("default", {day: 'long'});
-    //let day = d.toLocaleString("default",{day:'short'});
-    //let day = d.getDay();
+   
     var daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     var weekdayNum = d.getDay();
     var day = daysArray[weekdayNum];
 
     //time
-    // let time = d.toLocaleString([],{
-    //     hour: '2-digit',
-    //     minute: '2-digit',
-    //     second: '2-digit'
-    // }); 
-    
-
-    const UpdateTime = () => {
-         time = new Date.toLocaleTimeString();
+    const curtime =()=>{
+        let time = new Date().toLocaleTimeString();
         setCtime(time);
-    };
-    setInterval(UpdateTime, 1000);
+      };
+    
+      setInterval(curtime,1000);
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -121,7 +115,8 @@ const SearchWeather = () => {
                                         {ctime}
                                     </p>
                                     <hr />
-                                    <i className={`fas ${emoji} fa-4x`}></i>
+                                    {/* <FontAwesomeIcon icon="fa-solid fa-clouds" /> */}
+                                    <i className={`fa ${emoji} fa-4x`}></i>
                                     <h1 className='fw-bolder mb-5'>{temp} &deg;C </h1>
                                     <p className="lead fw-bolder mb-0">{data.weather[0].main}</p>
                                     <p className="lead">{temp_min} &deg;C | {temp_max} &deg;C</p>

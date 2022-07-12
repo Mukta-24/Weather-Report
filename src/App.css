@@ -4,4 +4,11 @@
 
 .background {
     background-color: azure;
+    height: 100%;
 }
+
+.card-text {
+    font-family:Arial, Helvetica, sans-serif;
+    text-decoration: dashed;
+}
+
